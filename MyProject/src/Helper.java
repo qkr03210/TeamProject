@@ -32,6 +32,7 @@ public class Helper {
 	 * 길이 5~12의 영문, 숫자, (_).
 	 * @param str
 	 * @return
+	 * @author jaemoonnlee
 	 */
 	public static boolean isID(String str) {
 		if (str == null) {
@@ -44,6 +45,7 @@ public class Helper {
 	 * 길이 8자 이상, 대소문자 최소 1자, 숫자 최소 1자, 공백 불가.
 	 * @param str
 	 * @return
+	 * @author jaemoonnlee
 	 */
 	public static boolean isPassword(String str) {
 		// check(_ 메소드 써야함
@@ -60,6 +62,7 @@ public class Helper {
 	 * 숫자 사이의 구분자는 공백, '-', '.'만 가능함.
 	 * @param str
 	 * @return
+	 * @author jaemoonnlee
 	 */
 	public static boolean isPhoneNumber(String str) {
 		if (str == null) {
@@ -71,6 +74,7 @@ public class Helper {
 	 * 이메일 정규식
 	 * @param str
 	 * @return
+	 * @author jaemoonnlee
 	 */
 	public static boolean isEmail(String str) {
 		if (str == null) {
