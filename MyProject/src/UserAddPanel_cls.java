@@ -101,7 +101,9 @@ public class UserAddPanel_cls extends JPanel {
 		addUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				/// edit by jaemoonnlee
+				/**
+				 * @author jaemoonnlee
+				 */
 				if (!flag_id_dup)
 					JOptionPane.showMessageDialog(null, "아이디 중복확인을 해주세요");
 				else
@@ -135,7 +137,10 @@ public class UserAddPanel_cls extends JPanel {
 		UserPanel.add(addUserBtn);
 	}
 
-	/// edit by jaemoonnlee
+	/**
+	 * ID, PW, PW확인, 이름, 전화번호 입력값을 확인 후 DB에 입력
+	 * @author jaemoonnlee
+	 */
 	private void doCheckAll() {
 		// ID, 비밀번호, 전화번호 정규식 체크 및 null 체크
 		// 비밀번호, 비밀번호 확인 서로 같은지 확인
@@ -179,18 +184,14 @@ public class UserAddPanel_cls extends JPanel {
 
 		if (flag_id && flag_pw && flag_pw2 && flag_name && flag_phonenum) {
 			// run query if all condition is true
-			if (Helper.get_Pass(txt_pwd).equals(Helper.get_Pass(txt_pwd2))) {
-				UserAdd Uad = new UserAdd(txt_id, txt_pwd, txt_name, txt_phone);
+			UserAdd Uad = new UserAdd(txt_id, txt_pwd, txt_name, txt_phone);
 
-				JOptionPane.showMessageDialog(null, "회원가입 성공");
-				LoginPanel lp = new LoginPanel();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(lp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
-			} else {
-				JOptionPane.showMessageDialog(null, "비밀번호 재확인을 실패하셨습니다");
-			}
+			JOptionPane.showMessageDialog(null, "회원가입 성공");
+			LoginPanel lp = new LoginPanel();
+			MyProject.ChangePanel.removeAll();
+			MyProject.ChangePanel.add(lp);
+			MyProject.ChangePanel.repaint();
+			MyProject.ChangePanel.revalidate();
 			return;
 		}
 
@@ -217,7 +218,14 @@ public class UserAddPanel_cls extends JPanel {
 		}
 	}
 
-	/// edit by jaemoonnlee
+	/**
+	 * 입력값이 빈칸인지 확인하고, 입력값이 정규식에 맞는지 아닌지를 확인하는 메소드
+	 * 
+	 * @param input JTextField | JPasswordField
+	 * @param info  INPUT_INFO: ID, PW, PHONENUM
+	 * @return
+	 * @author jaemoonnlee
+	 */
 	private boolean checkTextField(Object input, INPUT_INFO info) {
 		boolean flag = false;
 		String temp_str;
@@ -270,6 +278,9 @@ public class UserAddPanel_cls extends JPanel {
 		return flag;
 	}
 
+	/**
+	 * @author jaemoonnlee
+	 */
 	private enum INPUT_INFO {
 		ID, PW, PHONENUM
 	}

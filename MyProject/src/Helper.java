@@ -2,6 +2,10 @@ import java.util.regex.Pattern;
 
 import javax.swing.JPasswordField;
 
+/**
+ * 확장 메소드 비슷하게 쓰려고 작성한 클래스.
+ * @author jaemoonnlee
+ */
 public class Helper {
 	// RegularExpression------------------------------------------------------------------------
 	// 길이 5~12의 영문, 숫자, (_)로 이루어진 아이디
@@ -23,13 +27,24 @@ public class Helper {
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
 			Pattern.CASE_INSENSITIVE);
 
+	/**
+	 * ID 정규식
+	 * 길이 5~12의 영문, 숫자, (_).
+	 * @param str
+	 * @return
+	 */
 	public static boolean isID(String str) {
 		if (str == null) {
 			return false;
 		}
 		return VALID_ID_REGEX.matcher(str).matches();
 	}
-
+	/**
+	 * 비밀번호 정규식
+	 * 길이 8자 이상, 대소문자 최소 1자, 숫자 최소 1자, 공백 불가.
+	 * @param str
+	 * @return
+	 */
 	public static boolean isPassword(String str) {
 		// check(_ 메소드 써야함
 		if (str == null) {
@@ -37,14 +52,26 @@ public class Helper {
 		}
 		return VALID_PASSWORD_REGEX.matcher(str).matches();
 	}
-
+	/**
+	 * 전화번호 정규식
+	 * 010, 011, 016, 017, 018, 019
+	 * 3~4자리 숫자
+	 * 4자리 숫자로 이루어지며,
+	 * 숫자 사이의 구분자는 공백, '-', '.'만 가능함.
+	 * @param str
+	 * @return
+	 */
 	public static boolean isPhoneNumber(String str) {
 		if (str == null) {
 			return false;
 		}
 		return VALID_PHONE_NUMBER_REGEX.matcher(str).matches();
 	}
-
+	/**
+	 * 이메일 정규식
+	 * @param str
+	 * @return
+	 */
 	public static boolean isEmail(String str) {
 		if (str == null) {
 			return false;
@@ -53,8 +80,12 @@ public class Helper {
 	}
 
 	// ------------------------------------------------------------------------------------------
-	/// edit by jaemoonnlee
-	// Check.java에서 옮김(작성자 김민성)
+	/**
+	 * JPasswordField의 입력값을 String으로 반환
+	 * @param passwordField
+	 * @return
+	 * @author 김민성
+	 */
 	public static String get_Pass(JPasswordField passwordField) {
 		passwordField.setEchoChar('*');
 		String pw = "";
