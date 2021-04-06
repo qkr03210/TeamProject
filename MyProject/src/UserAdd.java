@@ -1,0 +1,80 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Scanner;
+
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+//db에 등록
+public class UserAdd{
+	JTextField Name;
+	JTextField pNum;
+	JTextField Pwd;
+	JTextField Uid;
+
+	Scanner scan = new Scanner(System.in);
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+
+	public UserAdd(JTextField Uid,JTextField Pwd,JTextField Name, JTextField pNum) {
+		this.Name = Name;
+		this.pNum = pNum;
+		this.Uid = Uid;
+		this.Pwd = Pwd;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
+
+			// 프로시저 호출
+			CallableStatement cs = conn.prepareCall("begin add_user(?,?,?,?); end;");
+			
+			String str[] = new String[4];
+			str[0] = Uid.getText();
+			str[1] = Pwd.getText();
+			str[2] = Name.getText();
+			str[3] = pNum.getText();
+			
+			// 입력 파라메터
+			cs.setString(1, str[0]);
+			cs.setString(2, str[1]);
+			cs.setString(3, str[2]);
+			cs.setString(4, str[3]);
+			
+			cs.executeUpdate();
+
+				
+//			rs.close();
+			cs.close();
+			conn.close();
+
+		} catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+
+		}
+	}
+}
