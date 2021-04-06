@@ -32,6 +32,7 @@ public class Helper {
 	}
 
 	public static boolean isPassword(String str) {
+		// check(_ 메소드 써야함
 		if (str == null) {
 			return false;
 		}

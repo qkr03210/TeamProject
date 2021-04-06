@@ -18,7 +18,7 @@ public class UserAdd{
 	JPasswordField Pwd;
 	JTextField Uid;
 	
-	Check ck;
+	Check ck = new Check();
 	
 
 	Scanner scan = new Scanner(System.in);

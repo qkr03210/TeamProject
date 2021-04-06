@@ -40,11 +40,17 @@ public class UserAddPanel_cls extends JPanel {
 		btn_idCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ck.setTxt(txt_id.getText());
-				if(ck.checkId()==0)
-				{
-					flag=true;
-					JOptionPane.showMessageDialog(null, "사용하실수 있는 아이디입니다");
-				}
+				
+				if(ck.checkId()==0) {
+					// 회원가입 id 널 값 처리 (김민성)
+					if (txt_id.getText().equals("")){
+						flag =false;
+						JOptionPane.showMessageDialog(null, "아이디를 입력해주세요");
+					} else {
+						flag=true;
+						JOptionPane.showMessageDialog(null, "사용하실수 있는 아이디입니다");
+					}
+				} 
 				else
 				{
 					flag=false;
@@ -96,27 +102,29 @@ public class UserAddPanel_cls extends JPanel {
 		JButton addUserBtn = new JButton("회원 가입");
 		addUserBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(flag==false)
-				{
-					JOptionPane.showMessageDialog(null, "아이디 중복확인을 해주세요");
-				}
-				else
-				{
-					if (ck.get_Pass(txt_pwd).equals(ck.get_Pass(txt_pwd2))) {
-						// 비밀번호 확인 수정 (김민성)
-						UserAdd Uad= new UserAdd(txt_id,txt_pwd,txt_name,txt_phone);
-						
-						JOptionPane.showMessageDialog(null, "회원가입 성공");
-						LoginPanel lp = new LoginPanel();
-						MyProject.ChangePanel.removeAll();	
-						MyProject.ChangePanel.add(lp);
-						MyProject.ChangePanel.repaint();
-						MyProject.ChangePanel.revalidate();
-					}
-					else
-						JOptionPane.showMessageDialog(null, "비밀번호 재확인을 실패하셨습니다");
-				}
 				
+				// 회원 가입시 널 값 처리 (김민성)
+				if (!txt_name.getText().equals("") && !txt_phone.getText().equals("") ) {
+					if(flag==false) {
+						JOptionPane.showMessageDialog(null, "아이디 중복확인을 해주세요");
+					} else {
+						if (ck.get_Pass(txt_pwd).equals(ck.get_Pass(txt_pwd2))) {
+							// 비밀번호 확인 수정 (김민성)
+							UserAdd Uad= new UserAdd(txt_id,txt_pwd,txt_name,txt_phone);
+						
+							JOptionPane.showMessageDialog(null, "회원가입 성공");
+							LoginPanel lp = new LoginPanel();
+							MyProject.ChangePanel.removeAll();	
+							MyProject.ChangePanel.add(lp);
+							MyProject.ChangePanel.repaint();
+							MyProject.ChangePanel.revalidate();
+						} else {
+							JOptionPane.showMessageDialog(null, "비밀번호 재확인을 실패하셨습니다");
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "빈 정보가 없게 해주세요");
+				}
 			}
 		});
 		addUserBtn.setBounds(534, 316, 97, 23);
