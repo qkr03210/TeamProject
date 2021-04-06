@@ -10,9 +10,13 @@ import java.awt.Font;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Reconfirm extends JPanel{
-	private JTextField txt_ckPwd;
+	
+	// 비밀번호전용 필드로 변경 (김민성)
+	
+	private JPasswordField passwordField;
 	public Reconfirm(int version){
 		setSize(790, 648);
 		setLayout(null);
@@ -22,20 +26,15 @@ public class Reconfirm extends JPanel{
 		add(panel);
 		panel.setLayout(null);
 		
-		txt_ckPwd = new JTextField();
-		txt_ckPwd.setBounds(178, 109, 116, 21);
-		panel.add(txt_ckPwd);
-		txt_ckPwd.setColumns(10);
-		
 		JButton btnNewButton = new JButton("확인");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Check ck = new Check();
-				if(ck.checkPwd(MyProject.UserId, txt_ckPwd.getText())&&version==1){
+				if(ck.checkPwd(MyProject.UserId, ck.get_Pass(passwordField))&&version==1){
 					CardLayout cards =  (CardLayout) MyPage.panel.getLayout();            
 		            cards.show(MyPage.panel, "up2");
 				}
-				else if(ck.checkPwd(MyProject.UserId, txt_ckPwd.getText())&&version==2)
+				else if(ck.checkPwd(MyProject.UserId, ck.get_Pass(passwordField))&&version==2)
 				{
 					DeleteUser du=new DeleteUser();
 					LoginPanel lp = new LoginPanel();
@@ -61,10 +60,18 @@ public class Reconfirm extends JPanel{
 		lblNewLabel.setBounds(42, 68, 413, 15);
 		panel.add(lblNewLabel);
 		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(186, 106, 104, 23);
+		panel.add(passwordField);
+		
 		JLabel lb_ckPwd = new JLabel("회원 비밀번호 확인");
 		lb_ckPwd.setForeground(Color.RED);
 		lb_ckPwd.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		lb_ckPwd.setBounds(253, 112, 249, 56);
 		add(lb_ckPwd);
 	}
+
+	
+
+	
 }

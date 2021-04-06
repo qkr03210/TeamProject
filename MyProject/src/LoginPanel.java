@@ -9,8 +9,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 
 public class LoginPanel extends JPanel {
+	private JPasswordField passwordField;
+	Check ck = new Check();
 	public LoginPanel(){
 		setSize(1000,700);
 		setLayout(null);
@@ -19,11 +22,6 @@ public class LoginPanel extends JPanel {
 		textField.setBounds(323, 258, 345, 21);
 		add(textField);
 		textField.setColumns(10);
-
-		JTextField textField_1 = new JTextField();
-		textField_1.setBounds(323, 283, 345, 21);
-		add(textField_1);
-		textField_1.setColumns(10);
 
 		JLabel label = new JLabel("로그인");
 		label.setBounds(456, 222, 45, 21);
@@ -58,6 +56,10 @@ public class LoginPanel extends JPanel {
 		lblNewLabel_2.setBounds(456, 319, 82, 21);
 		add(lblNewLabel_2);
 		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(323, 288, 345, 21);
+		add(passwordField);
+		
 		//회원가입
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -74,8 +76,8 @@ public class LoginPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// if()
 				// else
-				Login_cls login_cls = new Login_cls(textField.getText(),textField_1.getText());
-				
+				Login_cls login_cls = new Login_cls(textField.getText(),ck.get_Pass(passwordField));
+				 
 				if(login_cls.checkLogin()==2)
 				{
 					SelectMenuPanel smp = new SelectMenuPanel();

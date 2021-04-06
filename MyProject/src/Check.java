@@ -9,9 +9,12 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import javafx.scene.control.PasswordField;
 
 public class Check {
 	JTable table;
@@ -250,4 +253,23 @@ public class Check {
 		}
 		return index;
 	}
+	
+	// 패스워드필드를 string으로 변환 메소드 (김민성)
+	public String get_Pass(JPasswordField passwordField) {
+		passwordField.setEchoChar('*');
+		String pw = "";
+		char[] secret_pw = passwordField.getPassword();
+    
+		for (char cha : secret_pw) {
+			Character.toString(cha); 
+       //cha 에 저장된 값 string으로 변환 //pw 에 저장하기, pw 에 값이 비어있으면 저장, 값이 있으면 이어서 저장하는 삼항연산자 pw += (pw.equals("")) ? ""+cha+"" : ""+cha+""; }
+
+			pw += (pw.equals("")) ? ""+cha+"" : ""+cha+"";
+
+       
+		}
+    
+    return pw;
+    
+ }
 }

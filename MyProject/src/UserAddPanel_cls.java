@@ -1,4 +1,5 @@
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -8,11 +9,13 @@ import java.awt.event.ActionEvent;
 
 public class UserAddPanel_cls extends JPanel {
 	private JTextField txt_id;
-	private JTextField txt_pwd;
-	private JTextField txt_pwd2;
+	private JPasswordField txt_pwd;
+	private JPasswordField txt_pwd2;
 	private JTextField txt_name;
 	private JTextField txt_phone;
 	private boolean flag = false;
+	
+	Check ck;
 	
 	public UserAddPanel_cls() {
 		setLayout(null);
@@ -58,7 +61,7 @@ public class UserAddPanel_cls extends JPanel {
 		lb_PWD.setBounds(271, 161, 57, 15);
 		UserPanel.add(lb_PWD);
 
-		txt_pwd = new JTextField();
+		txt_pwd = new JPasswordField();
 		txt_pwd.setColumns(10);
 		txt_pwd.setBounds(387, 155, 116, 21);
 		UserPanel.add(txt_pwd);
@@ -67,7 +70,7 @@ public class UserAddPanel_cls extends JPanel {
 		lb_rePWD.setBounds(271, 196, 57, 15);
 		UserPanel.add(lb_rePWD);
 
-		txt_pwd2 = new JTextField();
+		txt_pwd2 = new JPasswordField();
 		txt_pwd2.setColumns(10);
 		txt_pwd2.setBounds(387, 190, 116, 21);
 		UserPanel.add(txt_pwd2);
@@ -99,8 +102,8 @@ public class UserAddPanel_cls extends JPanel {
 				}
 				else
 				{
-					if (txt_pwd.getText().equals((txt_pwd2).getText())) {
-
+					if (ck.get_Pass(txt_pwd).equals(ck.get_Pass(txt_pwd2))) {
+						// 비밀번호 확인 수정 (김민성)
 						UserAdd Uad= new UserAdd(txt_id,txt_pwd,txt_name,txt_phone);
 						
 						JOptionPane.showMessageDialog(null, "회원가입 성공");

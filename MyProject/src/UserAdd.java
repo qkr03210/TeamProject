@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -14,15 +15,20 @@ import javax.swing.table.DefaultTableModel;
 public class UserAdd{
 	JTextField Name;
 	JTextField pNum;
-	JTextField Pwd;
+	JPasswordField Pwd;
 	JTextField Uid;
+	
+	Check ck;
+	
 
 	Scanner scan = new Scanner(System.in);
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
-	public UserAdd(JTextField Uid,JTextField Pwd,JTextField Name, JTextField pNum) {
+	public UserAdd(JTextField Uid,JPasswordField Pwd,JTextField Name, JTextField pNum) {
+		String r_pwd = ck.get_Pass(Pwd);
+		// 비밀번호 필드로 변경 (김민성)
 		this.Name = Name;
 		this.pNum = pNum;
 		this.Uid = Uid;
@@ -38,7 +44,7 @@ public class UserAdd{
 			
 			String str[] = new String[4];
 			str[0] = Uid.getText();
-			str[1] = Pwd.getText();
+			str[1] = r_pwd;
 			str[2] = Name.getText();
 			str[3] = pNum.getText();
 			
