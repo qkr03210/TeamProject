@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
 public class LoginPanel extends JPanel {
-	private JPasswordField passwordField;
+	public static JPasswordField passwordField;
 	Check ck = new Check();
 	public LoginPanel(){
 		setSize(1000,700);
