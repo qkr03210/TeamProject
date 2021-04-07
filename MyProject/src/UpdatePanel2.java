@@ -35,7 +35,12 @@ public class UpdatePanel2 extends JPanel{
 		// 비밀번호 변경 (김민성)
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (textField_1.getText().equals(ck.get_Pass(LoginPanel.passwordField))) {
+				if (textField_1.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요");
+				}
+				
+				else if (textField_1.getText().equals(ck.get_Pass(LoginPanel.passwordField))) {
+					
 					JOptionPane.showMessageDialog(null, "사용하고 있는 비밀번호입니다 ");
 					return;
 				}
