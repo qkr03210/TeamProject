@@ -262,8 +262,9 @@ public class Check {
 //			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
 
-			//책을 대여해간적 있고 반납을 안한거 확인 1이면 반납안한거 0이면 반납한거
-			String quary = "select count(*) from lib_rental where ren_bid='"+txt+"'and rtn_date is null";
+			//대여된것이 없음 or 빌려가고 반납함 예약x
+			
+			String quary = "select count(*) from lib_rental where (ren_bid='"+txt+"')or(ren_bid='"+txt+"' and rtn_date is not null and sun_id is null)";
 
 			pstmt = conn.prepareStatement(quary);
 			rs = pstmt.executeQuery();
@@ -271,8 +272,8 @@ public class Check {
 				index = Integer.parseInt( rs.getString(1));
 			}
 			
-			//빌려간 책이 예약이 되어 있다면 1(예약 불가) 0(예약 가능)
-			String quary2 = "select count(*) from lib_rental where ren_bid='"+txt+"'and rtn_date is null and sun_id is not null";
+			//일단 bid로 검색이 되어야하고 반납x 예약x ->1
+			String quary2 = "select count(*) from lib_rental where ren_bid='"+txt+"' and rtn_date is null and sun_id is null";
 
 			pstmt = conn.prepareStatement(quary2);
 			rs = pstmt.executeQuery();
@@ -286,7 +287,7 @@ public class Check {
 			}
 			else
 			{
-				if(index2==0)
+				if(index2==1)
 				{
 					rent ="예약가능";
 				}
