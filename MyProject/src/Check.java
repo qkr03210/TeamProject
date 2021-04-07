@@ -253,8 +253,78 @@ public class Check {
 		}
 		return index;
 	}
-	
-	// 패스워드필드를 string으로 변환 메소드 (김민성)
+	public String checkRental(){
+		String rent="대여가능";
+		int index=-1;
+		int index2=-1;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+
+			//책을 대여해간적 있고 반납을 안한거 확인 1이면 반납안한거 0이면 반납한거
+			String quary = "select count(*) from lib_rental where ren_bid='"+txt+"'and rtn_date is null";
+
+			pstmt = conn.prepareStatement(quary);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				index = Integer.parseInt( rs.getString(1));
+			}
+			
+			//빌려간 책이 예약이 되어 있다면 1(예약 불가) 0(예약 가능)
+			String quary2 = "select count(*) from lib_rental where ren_bid='"+txt+"'and rtn_date is null and sun_id is not null";
+
+			pstmt = conn.prepareStatement(quary2);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				index2 = Integer.parseInt( rs.getString(1));
+			}
+			
+			if(index==0)
+			{
+				rent = "대여가능";
+			}
+			else
+			{
+				if(index2==0)
+				{
+					rent ="예약가능";
+				}
+				else
+					rent="예약중";
+			}
+			
+			return rent;
+				
+			
+		} catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+
+		}
+		
+		return null;
+	}
+		// 패스워드필드를 string으로 변환 메소드 (김민성)
 	public String get_Pass(JPasswordField passwordField) {
 		passwordField.setEchoChar('*');
 		String pw = "";

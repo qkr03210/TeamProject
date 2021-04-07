@@ -27,7 +27,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class Book_MS_Panel extends JPanel {
 	private JTable table;
-
+	Check ck=null;
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -92,17 +92,17 @@ public class Book_MS_Panel extends JPanel {
 		JComboBox cmb_bookSearch = new JComboBox();
 		cmb_bookSearch.setModel(new DefaultComboBoxModel(new String[] {"도서명", "저자"}));
 		cmb_bookSearch.setMaximumRowCount(2);
-		cmb_bookSearch.setBounds(623, 362, 78, 21);
+		cmb_bookSearch.setBounds(623, 384, 78, 21);
 		add(cmb_bookSearch);
 
 		JButton btn_bookSearch = new JButton("검색");
-		btn_bookSearch.setBounds(906, 361, 67, 23);
+		btn_bookSearch.setBounds(909, 383, 67, 23);
 		add(btn_bookSearch);
 
 		makeTable();
 		
 		txt_bookSearch = new JTextField();
-		txt_bookSearch.setBounds(713, 362, 184, 21);
+		txt_bookSearch.setBounds(713, 384, 184, 21);
 		add(txt_bookSearch);
 		txt_bookSearch.setColumns(10);
 		
@@ -114,6 +114,23 @@ public class Book_MS_Panel extends JPanel {
 		});
 		btn_rental.setBounds(617, 446, 120, 29);
 		add(btn_rental);
+		
+		JLabel lblNewLabel = new JLabel("대여 여부");
+		lblNewLabel.setBounds(623, 346, 57, 15);
+		add(lblNewLabel);
+		
+		JLabel lb_check_rental = new JLabel("");
+		lb_check_rental.setBounds(700, 346, 57, 15);
+		add(lb_check_rental);
+		
+		JButton btn_reserve = new JButton("예약");
+		btn_reserve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reserve rs = new Reserve(selectedTable[0].getText());
+			}
+		});
+		btn_reserve.setBounds(769, 449, 120, 29);
+		add(btn_reserve);
 		//키입력 동적 검색
 //		txt_bookSearch.addKeyListener(new KeyAdapter() {
 //			public void keyReleased(KeyEvent e){
@@ -132,6 +149,8 @@ public class Book_MS_Panel extends JPanel {
 				for (int i = 0; i < table.getColumnCount(); i++) {
 					selectedTable[i].setText((String) table.getModel().getValueAt(row, i));
 				}
+				ck=new Check(selectedTable[0].getText());
+				lb_check_rental.setText(ck.checkRental());
 				repaint();
 				revalidate();
 			}
@@ -197,7 +216,7 @@ public class Book_MS_Panel extends JPanel {
 
 		for (int i = 0; i < selectedTable.length; i++) {
 			selectedTable[i] = new JLabel("");
-			selectedTable[i].setBounds(680, 60 + (60 * i), 200, 15);
+			selectedTable[i].setBounds(700, 60 + (60 * i), 200, 15);
 			add(selectedTable[i]);
 
 		}
