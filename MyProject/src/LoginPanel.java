@@ -1,6 +1,3 @@
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,41 +6,53 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class LoginPanel extends JPanel {
+	// static variable -> UpdatePanel2.java
 	public static JPasswordField passwordField;
+	// variables(Components)
+	private JTextField txt_id;
+	private JLabel lbl_title_login;
+	private JLabel lbl_register;
+	private JLabel lbl_find_pw;
+	private JButton btn_login;
+	private JLabel lbl_find_id;
+
 	Check ck = new Check();
-	public LoginPanel(){
-		setSize(1000,700);
+
+	public LoginPanel() {
+		setSize(1000, 700);
 		setLayout(null);
-		
-		JTextField textField = new JTextField();
-		textField.setBounds(323, 258, 345, 21);
-		add(textField);
-		textField.setColumns(10);
 
-		JLabel label = new JLabel("로그인");
-		label.setBounds(456, 222, 45, 21);
-		add(label);
-		label.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		txt_id = new JTextField();
+		txt_id.setBounds(323, 258, 345, 21);
+		add(txt_id);
+		txt_id.setColumns(10);
 
-		JLabel lblNewLabel = new JLabel("회원 가입");
-		lblNewLabel.setBounds(296, 319, 76, 15);
-		add(lblNewLabel);
+		lbl_title_login = new JLabel("로그인");
+		lbl_title_login.setBounds(456, 222, 45, 21);
+		add(lbl_title_login);
+		lbl_title_login.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 
-		JLabel lblNewLabel_1 = new JLabel("비밀번호 찾기");
+		lbl_register = new JLabel("회원 가입");
+		lbl_register.setBounds(296, 319, 76, 15);
+		add(lbl_register);
 
-		lblNewLabel_1.setBounds(607, 319, 102, 15);
-		add(lblNewLabel_1);
+		lbl_find_pw = new JLabel("비밀번호 찾기");
 
-		JButton btnNewButton = new JButton("로그인");
+		lbl_find_pw.setBounds(607, 319, 102, 15);
+		add(lbl_find_pw);
 
-		btnNewButton.setBounds(383, 360, 190, 30);
-		add(btnNewButton);
-		
-		JLabel lblNewLabel_2 = new JLabel("아이디 찾기");
-		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+		btn_login = new JButton("로그인");
+
+		btn_login.setBounds(383, 360, 190, 30);
+		add(btn_login);
+
+		lbl_find_id = new JLabel("아이디 찾기");
+		lbl_find_id.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				FindUidPanel fup = new FindUidPanel();
@@ -53,15 +62,15 @@ public class LoginPanel extends JPanel {
 				MyProject.ChangePanel.revalidate();
 			}
 		});
-		lblNewLabel_2.setBounds(456, 319, 82, 21);
-		add(lblNewLabel_2);
-		
+		lbl_find_id.setBounds(456, 319, 82, 21);
+		add(lbl_find_id);
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(323, 288, 345, 21);
 		add(passwordField);
-		
-		//회원가입
-		lblNewLabel.addMouseListener(new MouseAdapter() {
+
+		// 회원가입
+		lbl_register.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				UserAddPanel_cls uap_cls = new UserAddPanel_cls();
@@ -71,17 +80,16 @@ public class LoginPanel extends JPanel {
 				MyProject.ChangePanel.revalidate();
 			}
 		});
-		//로그인
-		btnNewButton.addActionListener(new ActionListener() {
+		// 로그인
+		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// if()
 				// else
-				Login_cls login_cls = new Login_cls(textField.getText(),ck.get_Pass(passwordField));
-				 
-				if(login_cls.checkLogin()==2)
-				{
+				Login_cls login_cls = new Login_cls(txt_id.getText(), ck.get_Pass(passwordField));
+
+				if (login_cls.checkLogin() == 2) {
 					SelectMenuPanel smp = new SelectMenuPanel();
-					MyProject.UserId=textField.getText();
+					MyProject.UserId = txt_id.getText();
 					MyProject.ChangePanel.removeAll();
 					MyProject.ChangePanel.add(smp);
 					MyProject.ChangePanel.repaint();
@@ -89,8 +97,8 @@ public class LoginPanel extends JPanel {
 				}
 			}
 		});
-		//비밀번호 찾기
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		// 비밀번호 찾기
+		lbl_find_pw.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FindPwdPanel fpp = new FindPwdPanel();
