@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -19,10 +20,12 @@ import java.awt.event.MouseEvent;
 
 public class MyInfo extends JPanel{
 //	String id;
+	
 	private JTable table = new JTable();
 	private JTable reserveTable=new JTable();
 	JScrollPane scrollPane;
 	JScrollPane scrollPane2;
+	
 	
 	//시간용
 	SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
@@ -79,7 +82,12 @@ public class MyInfo extends JPanel{
 				         
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
-					System.out.println(selectedTable.getText());
+					
+					// 반납 null 및 예약 테이블일때 반납 버튼 사라짐 (민성)
+					if (t.equals("") || selectedTable.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "책을 선택해 주십시오");
+						return;
+					}
 					pstmt = conn.prepareStatement("UPDATE lib_rental SET rtn_date='"+ t+"' WHERE ren_num="+selectedTable.getText());
 					pstmt.executeQuery();
 					repaint();
@@ -114,6 +122,7 @@ public class MyInfo extends JPanel{
 		JButton btnNewButton = new JButton("전체 대여 내역");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_return.setVisible(true);
 				scrollPane.setVisible(true);
 				scrollPane2.setVisible(false);
 				AllRental();
@@ -130,6 +139,7 @@ public class MyInfo extends JPanel{
 		JButton btnNewButton_2 = new JButton("예약 내역");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				btn_return.setVisible(false);
 				scrollPane.setVisible(false);
 				scrollPane2.setVisible(true);
 				myReserv();
@@ -151,6 +161,7 @@ public class MyInfo extends JPanel{
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_return.setVisible(true);
 				scrollPane.setVisible(true);
 				scrollPane2.setVisible(false);
 				nowRental();

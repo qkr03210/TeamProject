@@ -19,7 +19,7 @@ public class UpdatePanel2 extends JPanel{
 		add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("변경할 password");
-		lblNewLabel_1.setBounds(208, 259, 57, 15);
+		lblNewLabel_1.setBounds(208, 259, 105, 15);
 		add(lblNewLabel_1);
 		
 		

@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -27,21 +28,20 @@ import javax.swing.DefaultComboBoxModel;
 
 public class Book_MS_Panel extends JPanel {
 	private JTable table;
-	Check ck=null;
+	Check ck = null;
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-
+	public JButton btn_bookSearch;
 
 	private JLabel[] pageLabel;
 
 	JLabel[] selectedTable = new JLabel[5];
-	
-	
+
 	public Book_MS_Panel() {
 		setSize(1000, 700);
 		setLayout(null);
-		
+
 		// table 부분
 		table = new JTable();
 		table.setBounds(305, 192, 375, 16);
@@ -49,9 +49,8 @@ public class Book_MS_Panel extends JPanel {
 		scrollPane.setLocation(100, 53);
 		scrollPane.setSize(500, 500);
 		add(scrollPane);
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "\uB3C4\uC11C \uBC88\uD638", "\uB3C4\uC11C\uBA85", "\uC800\uC790", "\uCD9C\uD310\uC0AC",
-						"\uBC1C\uD589\uC77C" }));
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "\uB3C4\uC11C \uBC88\uD638",
+				"\uB3C4\uC11C\uBA85", "\uC800\uC790", "\uCD9C\uD310\uC0AC", "\uBC1C\uD589\uC77C" }));
 
 		JButton returnLogin_bk = new JButton("돌아가기");
 		returnLogin_bk.addActionListener(new ActionListener() {
@@ -90,57 +89,66 @@ public class Book_MS_Panel extends JPanel {
 		add(lb_Book_4);
 
 		JComboBox cmb_bookSearch = new JComboBox();
-		cmb_bookSearch.setModel(new DefaultComboBoxModel(new String[] {"도서명", "저자"}));
+		cmb_bookSearch.setModel(new DefaultComboBoxModel(new String[] { "도서명", "저자" }));
 		cmb_bookSearch.setMaximumRowCount(2);
 		cmb_bookSearch.setBounds(623, 384, 78, 21);
 		add(cmb_bookSearch);
 
-		JButton btn_bookSearch = new JButton("검색");
+		btn_bookSearch = new JButton("검색");
 		btn_bookSearch.setBounds(909, 383, 67, 23);
 		add(btn_bookSearch);
 
 		makeTable();
-		
+
 		txt_bookSearch = new JTextField();
 		txt_bookSearch.setBounds(713, 384, 184, 21);
 		add(txt_bookSearch);
 		txt_bookSearch.setColumns(10);
-		
+
 		JButton btn_rental = new JButton("대여");
 		btn_rental.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BookRental br = new BookRental(MyProject.UserId,selectedTable[0].getText());
+				BookRental br = new BookRental(MyProject.UserId, selectedTable[0].getText());
+				JOptionPane.showMessageDialog(null, "대여 완료되었습니다.");
 			}
 		});
+
 		btn_rental.setBounds(617, 446, 120, 29);
 		add(btn_rental);
-		
+
 		JLabel lblNewLabel = new JLabel("대여 여부");
 		lblNewLabel.setBounds(623, 346, 57, 15);
 		add(lblNewLabel);
-		
+
 		JLabel lb_check_rental = new JLabel("");
 		lb_check_rental.setBounds(700, 346, 57, 15);
 		add(lb_check_rental);
-		
+
 		JButton btn_reserve = new JButton("예약");
 		btn_reserve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Reserve rs = new Reserve(selectedTable[0].getText());
+				JOptionPane.showMessageDialog(null, "예약 완료되었습니다.");
 			}
 		});
+
 		btn_reserve.setBounds(769, 449, 120, 29);
 		add(btn_reserve);
-		//키입력 동적 검색
-//		txt_bookSearch.addKeyListener(new KeyAdapter() {
-//			public void keyReleased(KeyEvent e){
-//				String val = txt_bookSearch.getText();
-//				TableRowSorter<TableModel> trs = new TableRowSorter<>(table.getModel());
-//				table.setRowSorter(trs);
-//				trs.setRowFilter(RowFilter.regexFilter(val));
-//			}
-//		});
-		
+		// 키입력 동적 검색
+		// txt_bookSearch.addKeyListener(new KeyAdapter() {
+		// public void keyReleased(KeyEvent e){
+		// String val = txt_bookSearch.getText();
+		// TableRowSorter<TableModel> trs = new
+		// TableRowSorter<>(table.getModel());
+		// table.setRowSorter(trs);
+		// trs.setRowFilter(RowFilter.regexFilter(val));
+		// }
+		// });
+
+		btn_bookSearch.setEnabled(false);
+		btn_reserve.setEnabled(false);
+		btn_rental.setEnabled(false);
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -149,33 +157,48 @@ public class Book_MS_Panel extends JPanel {
 				for (int i = 0; i < table.getColumnCount(); i++) {
 					selectedTable[i].setText((String) table.getModel().getValueAt(row, i));
 				}
-				ck=new Check(selectedTable[0].getText());
+				ck = new Check(selectedTable[0].getText());
 				lb_check_rental.setText(ck.checkRental());
+
+				btn_bookSearch.setEnabled(true);
+				// 예약 중이면 둘다 없애고 예약 가능이면 예약 버튼 활성화 대여 가능이면 대여 버튼 활성화
+				String temp = lb_check_rental.getText().trim();
+
+				if (temp.equals("대여가능")) {
+					btn_rental.setEnabled(true);
+					btn_reserve.setEnabled(false);
+				} else if (temp.equals("예약가능")) {
+					btn_reserve.setEnabled(true);
+					btn_rental.setEnabled(false);
+				} else {
+					btn_reserve.setEnabled(false);
+					btn_rental.setEnabled(false);
+				}
+
 				repaint();
 				revalidate();
 			}
 		});
-		
+
 		btn_bookSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(cmb_bookSearch.getSelectedItem().toString().equals("저자"))
-				{
-					SearchBook srch=new SearchBook(table,(String)txt_bookSearch.getText(),"author");
-				}
-				else
-				{
-					SearchBook srch=new SearchBook(table,(String)txt_bookSearch.getText(),"title");
+				if (cmb_bookSearch.getSelectedItem().toString().equals("저자")) {
+					SearchBook srch = new SearchBook(table, (String) txt_bookSearch.getText(), "author");
+				} else {
+					SearchBook srch = new SearchBook(table, (String) txt_bookSearch.getText(), "title");
 				}
 			}
 		});
 	}
-	
+
 	private void makeTable() {
 		int index = 0;
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
+			// conn =
+			// DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
+			// "AI", "1234");
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
 
 			String quary = "select cast((count(*)/10000) as number(4)) from lib_books";
@@ -185,7 +208,7 @@ public class Book_MS_Panel extends JPanel {
 
 			while (rs.next()) {
 				index = rs.getInt(1);
-//				index = rs.getInt(1)+1;
+				// index = rs.getInt(1)+1;
 			}
 
 		} catch (Exception ex) {
@@ -232,6 +255,7 @@ public class Book_MS_Panel extends JPanel {
 				// 수정필요
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					btn_bookSearch.setEnabled(true);
 					printTable(mkLabel.getText());
 				}
 
@@ -258,6 +282,7 @@ public class Book_MS_Panel extends JPanel {
 	private void printTable(String page) {
 		SelectAction s_action = new SelectAction(table, Integer.parseInt(page, 10) - 1);
 	}
+
 	private static final int LB_WIDTH = 20;
 	private static final int LB_HEIGHT = 23;
 	private JTextField txt_bookSearch;

@@ -281,7 +281,7 @@ public class Check {
 				index2 = Integer.parseInt( rs.getString(1));
 			}
 			
-			if(index==0)
+			if(index==0 )
 			{
 				rent = "대여가능";
 			}

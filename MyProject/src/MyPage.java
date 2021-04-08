@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 
 public class MyPage extends JPanel{
 	public static JPanel panel;
+	MyInfo mf = new MyInfo();
 	public MyPage(){
 		setLayout(null);
 		this.setSize(1000, 700);
@@ -15,10 +16,12 @@ public class MyPage extends JPanel{
 		update_btn.setBounds(75, 52, 97, 23);
 		add(update_btn);
 		
+		// 조회 버튼 구현 (김민성)
 		JButton view_btn = new JButton("조회");
 		view_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				CardLayout cards =  (CardLayout) panel.getLayout();
+				cards.show(panel, "info");
 			}
 		});
 		view_btn.setBounds(75, 108, 97, 23);
