@@ -1,8 +1,10 @@
+package swing;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.FindUid;
 import java.awt.event.ActionEvent;
 
 public class FindUidPanel extends JPanel{
@@ -47,10 +49,11 @@ public class FindUidPanel extends JPanel{
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginPanel lp = new LoginPanel();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(lp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(lp);
+//				MyProject.ChangePanel.removeAll();
+//				MyProject.ChangePanel.add(lp);
+//				MyProject.ChangePanel.repaint();
+//				MyProject.ChangePanel.revalidate();
 			}
 		});
 		btnNewButton_1.setBounds(781, 614, 129, 29);

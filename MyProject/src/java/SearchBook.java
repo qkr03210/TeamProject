@@ -1,15 +1,12 @@
+package java;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Scanner;
 
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class SearchBook {
@@ -19,11 +16,11 @@ public class SearchBook {
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	CallableStatement cs=null;
+	CallableStatement cs = null;
 
-	public SearchBook(JTable table,String txt,String option) {
+	public SearchBook(JTable table, String txt, String option) {
 		this.table = table;
-		this.txt= txt;
+		this.txt = txt;
 		this.option = option;
 
 		try {
@@ -31,7 +28,7 @@ public class SearchBook {
 //			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
 
-			String quary = "select * from lib_books where "+option+" like '%"+txt+"%'";
+			String quary = "select * from lib_books where " + option + " like '%" + txt + "%'";
 
 			pstmt = conn.prepareStatement(quary);
 			rs = pstmt.executeQuery();
@@ -52,7 +49,6 @@ public class SearchBook {
 			}
 
 		} catch (Exception ex) {
-			// TODO: handle exception
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -70,7 +66,6 @@ public class SearchBook {
 					cs.close();
 				}
 			} catch (Exception e2) {
-				// TODO: handle exception
 				e2.printStackTrace();
 			}
 

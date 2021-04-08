@@ -1,3 +1,4 @@
+package java;
 
 
 import java.awt.event.ActionEvent;
@@ -18,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class BookRental{
    String Id;
    String Bid;
-   //½Ã°£¿ë
+   //ï¿½Ã°ï¿½ï¿½ï¿½
    SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
    
    Connection conn = null;
@@ -58,7 +59,6 @@ public class BookRental{
          pstmt.executeQuery();
          
       } catch (Exception ex) {
-         // TODO: handle exception
          ex.printStackTrace();
       } finally {
          try {
@@ -76,7 +76,6 @@ public class BookRental{
                cs.close();
             }
          } catch (Exception e2) {
-            // TODO: handle exception
             e2.printStackTrace();
          }
 
@@ -98,7 +97,6 @@ public class BookRental{
           pstmt.executeQuery();
           
        } catch (Exception ex) {
-          // TODO: handle exception
           ex.printStackTrace();
        } finally {
           try {
@@ -116,7 +114,6 @@ public class BookRental{
                 cs.close();
              }
           } catch (Exception e2) {
-             // TODO: handle exception
              e2.printStackTrace();
           }
 

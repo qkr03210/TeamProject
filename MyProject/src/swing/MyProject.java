@@ -1,21 +1,28 @@
+package swing;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import database.DBConnManager;
 
 public class MyProject extends JFrame {
 	// static variables
-	public static String UserId = "";
+	public static String UserId = "";// ?
+	/**
+	 * 최상위 레이아웃 패널
+	 */
 	public static JLayeredPane ChangePanel;
 	public static JPanel LoginPanel;
 	public static SelectMenuPanel smp = new SelectMenuPanel();
+	public static Connection mainConn = null;
 
 	// Component
 	private JPanel MainPanel;
@@ -26,15 +33,28 @@ public class MyProject extends JFrame {
 	private JButton returnLogin;
 	private JButton btn_Reserv_ms;
 
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
 	JLabel[] selectedTable = new JLabel[5];
 
 	public MyProject() {
-		initaialize();
-		setEvent();
+		try {
+			initaialize();
+			setEvent();
+//			mainConn = DBConnManager.getConn("ai", "1234");
+//			if (mainConn != null) {
+//				initaialize();
+//				setEvent();
+//			} else
+//				JOptionPane.showMessageDialog(null, "no DB connection", "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} finally {
+			if (mainConn != null)
+				try {
+					DBConnManager.disconn();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+		}
 	}
 
 	private void initaialize() {
@@ -83,26 +103,17 @@ public class MyProject extends JFrame {
 
 		btn_Reserv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChangePanel.removeAll();
-				ChangePanel.add(Reserv_Panel);
-				ChangePanel.repaint();
-				ChangePanel.revalidate();
+				switchTopPanel(Reserv_Panel);
 			}
 		});
 		returnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChangePanel.removeAll();
-				ChangePanel.add(LoginPanel);
-				ChangePanel.repaint();
-				ChangePanel.revalidate();
+				switchTopPanel(LoginPanel);
 			}
 		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChangePanel.removeAll();
-				ChangePanel.add(Book_MS_Panel);
-				ChangePanel.repaint();
-				ChangePanel.revalidate();
+				switchTopPanel(Book_MS_Panel);
 			}
 		});
 
@@ -110,17 +121,26 @@ public class MyProject extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ChangePanel.removeAll();
-				ChangePanel.add(smp);
-				ChangePanel.repaint();
-				ChangePanel.revalidate();
-
+				switchTopPanel(smp);
 			}
 		});
 	}
 
+	// FIXME: 시작!
 	public static void main(String[] args) {
 		new MyProject();
 	}
 
+	/**
+	 * 현재 최상단 레이아웃의 JPanel을 제거하고, 매개변수로 대체.
+	 * 
+	 * @param pan
+	 * @author jaemoonnlee
+	 */
+	public static void switchTopPanel(JPanel pan) {
+		ChangePanel.removeAll();
+		ChangePanel.add(pan);
+		ChangePanel.repaint();
+		ChangePanel.revalidate();
+	}
 }

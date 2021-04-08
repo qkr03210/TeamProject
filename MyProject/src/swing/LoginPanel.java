@@ -1,3 +1,7 @@
+package swing;
+
+import java.Check;
+import java.Login_cls;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,10 +60,7 @@ public class LoginPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				FindUidPanel fup = new FindUidPanel();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(fup);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(fup);
 			}
 		});
 		lbl_find_id.setBounds(456, 319, 82, 21);
@@ -74,26 +75,18 @@ public class LoginPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				UserAddPanel_cls uap_cls = new UserAddPanel_cls();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(uap_cls);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(uap_cls);
 			}
 		});
 		// 로그인
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// if()
-				// else
 				Login_cls login_cls = new Login_cls(txt_id.getText(), ck.get_Pass(passwordField));
 
 				if (login_cls.checkLogin() == 2) {
 					SelectMenuPanel smp = new SelectMenuPanel();
 					MyProject.UserId = txt_id.getText();
-					MyProject.ChangePanel.removeAll();
-					MyProject.ChangePanel.add(smp);
-					MyProject.ChangePanel.repaint();
-					MyProject.ChangePanel.revalidate();
+					MyProject.switchTopPanel(smp);
 				}
 			}
 		});
@@ -102,10 +95,7 @@ public class LoginPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FindPwdPanel fpp = new FindPwdPanel();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(fpp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(fpp);
 			}
 		});
 	}

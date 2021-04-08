@@ -1,3 +1,5 @@
+package swing;
+import java.FindPwd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -58,10 +60,11 @@ public class FindPwdPanel extends JPanel{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginPanel lp = new LoginPanel();
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(lp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(lp);
+//				MyProject.ChangePanel.removeAll();
+//				MyProject.ChangePanel.add(lp);
+//				MyProject.ChangePanel.repaint();
+//				MyProject.ChangePanel.revalidate();
 			}
 		});
 		btnNewButton.setBounds(803, 622, 129, 29);

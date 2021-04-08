@@ -1,3 +1,4 @@
+package swing;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -30,11 +31,11 @@ public class MyPage extends JPanel{
 		JButton return_btn = new JButton("돌아가기");
 		return_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(MyProject.smp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(MyProject.smp);
+//				MyProject.ChangePanel.removeAll();
+//				MyProject.ChangePanel.add(MyProject.smp);
+//				MyProject.ChangePanel.repaint();
+//				MyProject.ChangePanel.revalidate();
 			}
 		});
 		return_btn.setBounds(75, 253, 97, 23);

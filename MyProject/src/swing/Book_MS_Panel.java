@@ -1,12 +1,13 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+package swing;
 
+import java.BookRental;
+import java.Check;
+import java.Reserve;
+import java.SearchBook;
+import java.SelectAction;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -14,20 +15,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class Book_MS_Panel extends JPanel {
+	// variables(Components)
+	private JLabel lbl_book_ms_panel_title;
+	private JScrollPane scrollPane;
+	private JLabel lbl_bid;
+	private JLabel lbl_book_title;
+	private JLabel lbl_author;
+	private JLabel lbl_copyright;
+	private JLabel lbl_year;
+	private JLabel lbl_rent_possibility;
+	private JComboBox<String> cmb_bookSearch;
+	private JButton btn_rental;
+	private JLabel lb_check_rental;
+	private JButton btn_reserve;
+
 	private JTable table;
+
 	Check ck = null;
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -45,7 +60,7 @@ public class Book_MS_Panel extends JPanel {
 		// table 부분
 		table = new JTable();
 		table.setBounds(305, 192, 375, 16);
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setLocation(100, 53);
 		scrollPane.setSize(500, 500);
 		add(scrollPane);
@@ -55,41 +70,42 @@ public class Book_MS_Panel extends JPanel {
 		JButton returnLogin_bk = new JButton("돌아가기");
 		returnLogin_bk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MyProject.ChangePanel.removeAll();
-				MyProject.ChangePanel.add(MyProject.smp);
-				MyProject.ChangePanel.repaint();
-				MyProject.ChangePanel.revalidate();
+				MyProject.switchTopPanel(MyProject.smp);
+//				MyProject.ChangePanel.removeAll();
+//				MyProject.ChangePanel.add(MyProject.smp);
+//				MyProject.ChangePanel.repaint();
+//				MyProject.ChangePanel.revalidate();
 			}
 		});
 		returnLogin_bk.setBounds(800, 600, 97, 23);
 		add(returnLogin_bk);
 
-		JLabel lblNewLabel_2 = new JLabel("도서 검색");
-		lblNewLabel_2.setBounds(451, 26, 57, 15);
-		add(lblNewLabel_2);
+		lbl_book_ms_panel_title = new JLabel("도서 검색");
+		lbl_book_ms_panel_title.setBounds(451, 26, 57, 15);
+		add(lbl_book_ms_panel_title);
 
-		JLabel lb_Book = new JLabel("도서 번호");
-		lb_Book.setBounds(623, 60, 57, 15);
-		add(lb_Book);
+		lbl_bid = new JLabel("도서 번호");
+		lbl_bid.setBounds(623, 60, 57, 15);
+		add(lbl_bid);
 
-		JLabel lb_Book_1 = new JLabel("도서명");
-		lb_Book_1.setBounds(623, 120, 57, 15);
-		add(lb_Book_1);
+		lbl_book_title = new JLabel("도서명");
+		lbl_book_title.setBounds(623, 120, 57, 15);
+		add(lbl_book_title);
 
-		JLabel lb_Book_2 = new JLabel("저자");
-		lb_Book_2.setBounds(623, 180, 57, 15);
-		add(lb_Book_2);
+		lbl_author = new JLabel("저자");
+		lbl_author.setBounds(623, 180, 57, 15);
+		add(lbl_author);
 
-		JLabel lb_Book_3 = new JLabel("출판사");
-		lb_Book_3.setBounds(623, 240, 57, 15);
-		add(lb_Book_3);
+		lbl_copyright = new JLabel("출판사");
+		lbl_copyright.setBounds(623, 240, 57, 15);
+		add(lbl_copyright);
 
-		JLabel lb_Book_4 = new JLabel("발행일");
-		lb_Book_4.setBounds(623, 300, 57, 15);
-		add(lb_Book_4);
+		lbl_year = new JLabel("발행일");
+		lbl_year.setBounds(623, 300, 57, 15);
+		add(lbl_year);
 
-		JComboBox cmb_bookSearch = new JComboBox();
-		cmb_bookSearch.setModel(new DefaultComboBoxModel(new String[] { "도서명", "저자" }));
+		cmb_bookSearch = new JComboBox<String>();
+		cmb_bookSearch.setModel(new DefaultComboBoxModel<String>(new String[] { "도서명", "저자" }));
 		cmb_bookSearch.setMaximumRowCount(2);
 		cmb_bookSearch.setBounds(623, 384, 78, 21);
 		add(cmb_bookSearch);
@@ -105,7 +121,7 @@ public class Book_MS_Panel extends JPanel {
 		add(txt_bookSearch);
 		txt_bookSearch.setColumns(10);
 
-		JButton btn_rental = new JButton("대여");
+		btn_rental = new JButton("대여");
 		btn_rental.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BookRental br = new BookRental(MyProject.UserId, selectedTable[0].getText());
@@ -116,15 +132,15 @@ public class Book_MS_Panel extends JPanel {
 		btn_rental.setBounds(617, 446, 120, 29);
 		add(btn_rental);
 
-		JLabel lblNewLabel = new JLabel("대여 여부");
-		lblNewLabel.setBounds(623, 346, 57, 15);
-		add(lblNewLabel);
+		lbl_rent_possibility = new JLabel("대여 여부");
+		lbl_rent_possibility.setBounds(623, 346, 57, 15);
+		add(lbl_rent_possibility);
 
-		JLabel lb_check_rental = new JLabel("");
+		lb_check_rental = new JLabel("");
 		lb_check_rental.setBounds(700, 346, 57, 15);
 		add(lb_check_rental);
 
-		JButton btn_reserve = new JButton("예약");
+		btn_reserve = new JButton("예약");
 		btn_reserve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Reserve rs = new Reserve(selectedTable[0].getText());
@@ -212,7 +228,6 @@ public class Book_MS_Panel extends JPanel {
 			}
 
 		} catch (Exception ex) {
-			// TODO: handle exception
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -227,7 +242,6 @@ public class Book_MS_Panel extends JPanel {
 					conn.close();
 				}
 			} catch (Exception e2) {
-				// TODO: handle exception
 				e2.printStackTrace();
 			}
 

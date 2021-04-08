@@ -1,5 +1,5 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+package java;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,18 +8,14 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 import javax.swing.JPasswordField;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 //db에 등록
 public class UserAdd {
-	JTextField Name;
-	JTextField pNum;
-	JPasswordField Pwd;
-	JTextField Uid;
-
-	Check ck = new Check();
+//	JTextField Name;
+//	JTextField pNum;
+//	JPasswordField Pwd;
+//	JTextField Uid;
 
 	Scanner scan = new Scanner(System.in);
 	Connection conn = null;
@@ -27,12 +23,12 @@ public class UserAdd {
 	ResultSet rs = null;
 
 	public UserAdd(JTextField Uid, JPasswordField Pwd, JTextField Name, JTextField pNum) {
-		String r_pwd = ck.get_Pass(Pwd);
+		String r_pwd = Helper.get_Pass(Pwd);
 		// 비밀번호 필드로 변경 (김민성)
-		this.Name = Name;
-		this.pNum = pNum;
-		this.Uid = Uid;
-		this.Pwd = Pwd;
+//		this.Name = Name;
+//		this.pNum = pNum;
+//		this.Uid = Uid;
+//		this.Pwd = Pwd;
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -63,7 +59,6 @@ public class UserAdd {
 			conn.close();
 
 		} catch (Exception ex) {
-			// TODO: handle exception
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -78,7 +73,6 @@ public class UserAdd {
 					conn.close();
 				}
 			} catch (Exception e2) {
-				// TODO: handle exception
 				e2.printStackTrace();
 			}
 

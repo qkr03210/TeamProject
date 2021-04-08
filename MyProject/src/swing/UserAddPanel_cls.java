@@ -1,3 +1,8 @@
+package swing;
+
+import java.Check;
+import java.Helper;
+import java.UserAdd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -139,6 +144,7 @@ public class UserAddPanel_cls extends JPanel {
 
 	/**
 	 * ID, PW, PW확인, 이름, 전화번호 입력값을 확인 후 DB에 입력
+	 * 
 	 * @author jaemoonnlee
 	 */
 	private void doCheckAll() {
@@ -188,10 +194,11 @@ public class UserAddPanel_cls extends JPanel {
 
 			JOptionPane.showMessageDialog(null, "회원가입 성공");
 			LoginPanel lp = new LoginPanel();
-			MyProject.ChangePanel.removeAll();
-			MyProject.ChangePanel.add(lp);
-			MyProject.ChangePanel.repaint();
-			MyProject.ChangePanel.revalidate();
+			MyProject.switchTopPanel(lp);
+//			MyProject.ChangePanel.removeAll();
+//			MyProject.ChangePanel.add(lp);
+//			MyProject.ChangePanel.repaint();
+//			MyProject.ChangePanel.revalidate();
 			return;
 		}
 
