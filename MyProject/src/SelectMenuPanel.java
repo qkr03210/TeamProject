@@ -15,12 +15,12 @@ public class SelectMenuPanel extends JPanel{
 		
 		JButton btn_UserInfo = new JButton("마이페이지");
 		
-		btn_UserInfo.setBounds(37, 68, 206, 29);
+		btn_UserInfo.setBounds(372, 264, 243, 72);
 		add(btn_UserInfo);
 		
 		JButton btn_BookManager = new JButton("도서 검색");
 
-		btn_BookManager.setBounds(37, 142, 206, 29);
+		btn_BookManager.setBounds(372, 346, 243, 72);
 		add(btn_BookManager);
 		
 		btn_BookManager.addActionListener(new ActionListener() {
