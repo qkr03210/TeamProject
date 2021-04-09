@@ -1,7 +1,5 @@
 package swing;
 
-import java.Check;
-import java.Login_cls;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +22,6 @@ public class LoginPanel extends JPanel {
 	private JLabel lbl_find_pw;
 	private JButton btn_login;
 	private JLabel lbl_find_id;
-
-	Check ck = new Check();
 
 	public LoginPanel() {
 		setSize(1000, 700);
@@ -81,9 +77,8 @@ public class LoginPanel extends JPanel {
 		// 로그인
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Login_cls login_cls = new Login_cls(txt_id.getText(), ck.get_Pass(passwordField));
-
-				if (login_cls.checkLogin() == 2) {
+				int result = MyProject.dml.login(txt_id.getText(),passwordField);
+				if (result == 2) {
 					SelectMenuPanel smp = new SelectMenuPanel();
 					MyProject.UserId = txt_id.getText();
 					MyProject.switchTopPanel(smp);

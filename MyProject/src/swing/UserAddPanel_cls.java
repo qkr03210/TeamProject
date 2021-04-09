@@ -1,8 +1,5 @@
 package swing;
 
-import java.Check;
-import java.Helper;
-import java.UserAdd;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,41 +10,40 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class UserAddPanel_cls extends JPanel {
-	private JTextField txt_id;
-	private JPasswordField txt_pwd;
-	private JPasswordField txt_pwd2;
-	private JTextField txt_name;
-	private JTextField txt_phone;
-	private boolean flag_id_dup = false;
+import java_side.Helper;
 
-	Check ck;
+public class UserAddPanel_cls extends JPanel {
+	private JPanel pnl_user;
+	private JPasswordField txt_pw, txt_repw;
+	private JTextField txt_id, txt_name, txt_phone;
+	private JLabel lbl_id, lbl_pw, lbl_repw, lbl_name, lbl_phone;
+	private JButton btn_addUser;
+
+	private boolean flag_id_dup = false;
 
 	public UserAddPanel_cls() {
 		setLayout(null);
 		this.setSize(1000, 700);
-		JPanel UserPanel = new JPanel();
-		UserPanel.setLayout(null);
-		UserPanel.setBounds(0, 0, 1000, 700);
-		add(UserPanel);
+		pnl_user = new JPanel();
+		pnl_user.setLayout(null);
+		pnl_user.setBounds(0, 0, 1000, 700);
+		add(pnl_user);
 
-		Check ck = new Check();
 
-		JLabel lb_ID = new JLabel("ID");
-		lb_ID.setBounds(271, 126, 57, 15);
-		UserPanel.add(lb_ID);
+		lbl_id = new JLabel("ID");
+		lbl_id.setBounds(271, 126, 57, 15);
+		pnl_user.add(lbl_id);
 
 		txt_id = new JTextField();
 		txt_id.setColumns(10);
 		txt_id.setBounds(387, 120, 116, 21);
-		UserPanel.add(txt_id);
+		pnl_user.add(txt_id);
 
 		JButton btn_idCheck = new JButton("ID CHECK");
 		btn_idCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ck.setTxt(txt_id.getText());
-
-				if (ck.checkId() == 0) {
+				int result = MyProject.dml.checkIdDup(txt_id.getText());
+				if (result == 0) {
 					// 회원가입 id 널 값 처리 (김민성)
 					if (txt_id.getText().equals("")) {
 						flag_id_dup = false;
@@ -64,51 +60,47 @@ public class UserAddPanel_cls extends JPanel {
 			}
 		});
 		btn_idCheck.setBounds(534, 119, 97, 23);
-		UserPanel.add(btn_idCheck);
+		pnl_user.add(btn_idCheck);
 
-		JLabel lb_PWD = new JLabel("PWD");
-		lb_PWD.setBounds(271, 161, 57, 15);
-		UserPanel.add(lb_PWD);
+		lbl_pw = new JLabel("PWD");
+		lbl_pw.setBounds(271, 161, 57, 15);
+		pnl_user.add(lbl_pw);
 
-		txt_pwd = new JPasswordField();
-		txt_pwd.setColumns(10);
-		txt_pwd.setBounds(387, 155, 116, 21);
-		UserPanel.add(txt_pwd);
+		txt_pw = new JPasswordField();
+		txt_pw.setColumns(10);
+		txt_pw.setBounds(387, 155, 116, 21);
+		pnl_user.add(txt_pw);
 
-		JLabel lb_rePWD = new JLabel("RE_PWD");
-		lb_rePWD.setBounds(271, 196, 57, 15);
-		UserPanel.add(lb_rePWD);
+		lbl_repw = new JLabel("RE_PWD");
+		lbl_repw.setBounds(271, 196, 57, 15);
+		pnl_user.add(lbl_repw);
 
-		txt_pwd2 = new JPasswordField();
-		txt_pwd2.setColumns(10);
-		txt_pwd2.setBounds(387, 190, 116, 21);
-		UserPanel.add(txt_pwd2);
+		txt_repw = new JPasswordField();
+		txt_repw.setColumns(10);
+		txt_repw.setBounds(387, 190, 116, 21);
+		pnl_user.add(txt_repw);
 
-		JLabel lb_NAME = new JLabel("NAME");
-		lb_NAME.setBounds(271, 231, 57, 15);
-		UserPanel.add(lb_NAME);
+		lbl_name = new JLabel("NAME");
+		lbl_name.setBounds(271, 231, 57, 15);
+		pnl_user.add(lbl_name);
 
 		txt_name = new JTextField();
 		txt_name.setColumns(10);
 		txt_name.setBounds(387, 225, 116, 21);
-		UserPanel.add(txt_name);
+		pnl_user.add(txt_name);
 
-		JLabel lb_PHONENUMBER = new JLabel("PHONENUMBER");
-		lb_PHONENUMBER.setBounds(271, 275, 104, 15);
-		UserPanel.add(lb_PHONENUMBER);
+		lbl_phone = new JLabel("PHONENUMBER");
+		lbl_phone.setBounds(271, 275, 104, 15);
+		pnl_user.add(lbl_phone);
 
 		txt_phone = new JTextField();
 		txt_phone.setColumns(10);
 		txt_phone.setBounds(387, 269, 116, 21);
-		UserPanel.add(txt_phone);
+		pnl_user.add(txt_phone);
 
-		JButton addUserBtn = new JButton("회원 가입");
-		addUserBtn.addActionListener(new ActionListener() {
+		btn_addUser = new JButton("회원 가입");
+		btn_addUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				/**
-				 * @author jaemoonnlee
-				 */
 				if (!flag_id_dup)
 					JOptionPane.showMessageDialog(null, "아이디 중복확인을 해주세요");
 				else
@@ -138,8 +130,8 @@ public class UserAddPanel_cls extends JPanel {
 //				}
 			}
 		});
-		addUserBtn.setBounds(534, 316, 97, 23);
-		UserPanel.add(addUserBtn);
+		btn_addUser.setBounds(534, 316, 97, 23);
+		pnl_user.add(btn_addUser);
 	}
 
 	/**
@@ -151,8 +143,8 @@ public class UserAddPanel_cls extends JPanel {
 		// ID, 비밀번호, 전화번호 정규식 체크 및 null 체크
 		// 비밀번호, 비밀번호 확인 서로 같은지 확인
 		// variables
-		String temp_pw = Helper.get_Pass(txt_pwd).trim();
-		String temp_repw = Helper.get_Pass(txt_pwd2).trim();
+		String temp_pw = Helper.get_Pass(txt_pw).trim();
+		String temp_repw = Helper.get_Pass(txt_repw).trim();
 		String temp_name = txt_name.getText().trim();
 		boolean flag_id = false;
 		boolean flag_pw = false;
@@ -163,7 +155,7 @@ public class UserAddPanel_cls extends JPanel {
 		// ID
 		flag_id = checkTextField(txt_id, INPUT_INFO.ID);
 		// pw
-		flag_pw = checkTextField(txt_pwd, INPUT_INFO.PW);
+		flag_pw = checkTextField(txt_pw, INPUT_INFO.PW);
 		// repw
 		if (!temp_repw.equals("")) {
 			if (temp_repw.equals(temp_pw)) {
@@ -190,15 +182,11 @@ public class UserAddPanel_cls extends JPanel {
 
 		if (flag_id && flag_pw && flag_pw2 && flag_name && flag_phonenum) {
 			// run query if all condition is true
-			UserAdd Uad = new UserAdd(txt_id, txt_pwd, txt_name, txt_phone);
+			MyProject.dml.addUser(txt_id, txt_pw, txt_name, txt_phone);
 
 			JOptionPane.showMessageDialog(null, "회원가입 성공");
 			LoginPanel lp = new LoginPanel();
 			MyProject.switchTopPanel(lp);
-//			MyProject.ChangePanel.removeAll();
-//			MyProject.ChangePanel.add(lp);
-//			MyProject.ChangePanel.repaint();
-//			MyProject.ChangePanel.revalidate();
 			return;
 		}
 
@@ -212,12 +200,12 @@ public class UserAddPanel_cls extends JPanel {
 			txt_name.requestFocus();
 		}
 		if (!flag_pw2) {
-			txt_pwd2.setText("");
-			txt_pwd2.requestFocus();
+			txt_repw.setText("");
+			txt_repw.requestFocus();
 		}
 		if (!flag_pw) {
-			txt_pwd.setText("");
-			txt_pwd.requestFocus();
+			txt_pw.setText("");
+			txt_pw.requestFocus();
 		}
 		if (!flag_id) {
 			txt_id.setText("");

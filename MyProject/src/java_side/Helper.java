@@ -1,4 +1,4 @@
-package java;
+package java_side;
 import java.util.regex.Pattern;
 
 import javax.swing.JPasswordField;

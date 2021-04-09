@@ -1,74 +1,92 @@
 package swing;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
 
-public class MyPage extends JPanel{
-	public static JPanel panel;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+public class MyPage extends JPanel {
+	public static JPanel pnl_sub;
 	MyInfo mf = new MyInfo();
-	public MyPage(){
+	private JButton btn_update;
+	private JButton btn_select;
+	JButton btn_goback;
+	JButton btn_delete;
+	MyInfo myinfo01;
+//	MyInfo myinfo02;
+	Reconfirm checkpw01;
+	Reconfirm checkpw03;
+	UpdatePanel2 updatePnl02;
+
+	public MyPage() {
 		setLayout(null);
 		this.setSize(1000, 700);
-		
-		JButton update_btn = new JButton("수정");
-		
-		update_btn.setBounds(75, 52, 97, 23);
-		add(update_btn);
-		
+
+		btn_update = new JButton("수정");
+		btn_update.setBounds(75, 52, 97, 23);
+		add(btn_update);
+
 		// 조회 버튼 구현 (김민성)
-		JButton view_btn = new JButton("조회");
-		view_btn.addActionListener(new ActionListener() {
+		btn_select = new JButton("조회");
+		btn_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cards =  (CardLayout) panel.getLayout();
-				cards.show(panel, "info");
+				CardLayout cards = (CardLayout) pnl_sub.getLayout();
+				cards.show(pnl_sub, "info");
 			}
 		});
-		view_btn.setBounds(75, 108, 97, 23);
-		add(view_btn);
-		
-		JButton return_btn = new JButton("돌아가기");
-		return_btn.addActionListener(new ActionListener() {
+		btn_select.setBounds(75, 108, 97, 23);
+		add(btn_select);
+
+		btn_goback = new JButton("돌아가기");
+		btn_goback.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyProject.switchTopPanel(MyProject.smp);
-//				MyProject.ChangePanel.removeAll();
-//				MyProject.ChangePanel.add(MyProject.smp);
-//				MyProject.ChangePanel.repaint();
-//				MyProject.ChangePanel.revalidate();
 			}
 		});
-		return_btn.setBounds(75, 253, 97, 23);
-		add(return_btn);
-		
-		JButton delete_btn = new JButton("탈퇴");
-		delete_btn.addActionListener(new ActionListener() {
+		btn_goback.setBounds(75, 253, 97, 23);
+		add(btn_goback);
+
+		btn_delete = new JButton("탈퇴");
+		btn_delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CardLayout cards =  (CardLayout) panel.getLayout();            
-	            cards.show(panel, "up3");
+				CardLayout cards = (CardLayout) pnl_sub.getLayout();
+				cards.show(pnl_sub, "up3");
 			}
 		});
-		delete_btn.setBounds(75, 169, 97, 23);
-		add(delete_btn);
+		btn_delete.setBounds(75, 169, 97, 23);
+		add(btn_delete);
+
+		pnl_sub = new JPanel();
+		pnl_sub.setBounds(185, 25, 790, 648);
+		add(pnl_sub);
+		pnl_sub.setLayout(new CardLayout(0, 0));
+
+		// 조회
+		myinfo01 = new MyInfo();
+		pnl_sub.add(myinfo01, "info");
+
+		// 유저 정보 수정
+		checkpw01 = new Reconfirm(1);
+		pnl_sub.add(checkpw01, "up1");
+
+		// 유저 정보 삭제
+		checkpw03 = new Reconfirm(2);
+		pnl_sub.add(checkpw03, "up3");
 		
-		panel= new JPanel();
-		panel.setBounds(185, 25, 790, 648);
-		add(panel);
-		panel.setLayout(new CardLayout(0, 0));
-		MyInfo info = new MyInfo();
-		panel.add(info,"info");
-		Reconfirm up1 =new Reconfirm(1);
-		panel.add(up1,"up1");
-		Reconfirm up3 = new Reconfirm(2);
-		panel.add(up3,"up3");
-		UpdatePanel2 up2 = new UpdatePanel2();
-		panel.add(up2,"up2");
-		MyInfo mi = new MyInfo();
-		panel.add(mi,"mi");
-		update_btn.addActionListener(new ActionListener() {
+		// 비밀번호 변경?
+		updatePnl02 = new UpdatePanel2();
+		pnl_sub.add(updatePnl02, "up2");
+
+		// 안쓰이는데?
+//		myinfo02 = new MyInfo();
+//		pnl_sub.add(myinfo02, "mi");
+
+		btn_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cards =  (CardLayout) panel.getLayout();            
-	            cards.show(panel, "up1");
+				CardLayout cards = (CardLayout) pnl_sub.getLayout();
+				cards.show(pnl_sub, "up1");
 			}
 		});
 	}

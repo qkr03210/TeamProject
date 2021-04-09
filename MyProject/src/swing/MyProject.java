@@ -11,18 +11,21 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import database.DBConnManager;
+import database.*;
+import java_side.*;
 
 public class MyProject extends JFrame {
 	// static variables
-	public static String UserId = "";// ?
+	/**
+	 * 세션용 아이디 정보
+	 */
+	public static String UserId = "";
 	/**
 	 * 최상위 레이아웃 패널
 	 */
 	public static JLayeredPane ChangePanel;
 	public static JPanel LoginPanel;
 	public static SelectMenuPanel smp = new SelectMenuPanel();
-	public static Connection mainConn = null;
 
 	// Component
 	private JPanel MainPanel;
@@ -33,18 +36,22 @@ public class MyProject extends JFrame {
 	private JButton returnLogin;
 	private JButton btn_Reserv_ms;
 
+	private LoginPanel lp;
 	JLabel[] selectedTable = new JLabel[5];
-
+	
+	// DB관련
+	public Connection mainConn = null;
+	public static DML dml = null;
+	
 	public MyProject() {
 		try {
-			initaialize();
-			setEvent();
-//			mainConn = DBConnManager.getConn("ai", "1234");
-//			if (mainConn != null) {
-//				initaialize();
-//				setEvent();
-//			} else
-//				JOptionPane.showMessageDialog(null, "no DB connection", "Error", JOptionPane.ERROR_MESSAGE);
+			mainConn = DBConnManager.getConn("ai", "1234");
+			dml = new DML();
+			if (mainConn != null) {
+				initaialize();
+				setEvent();
+			} else
+				JOptionPane.showMessageDialog(null, "no DB connection", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		} finally {
@@ -65,7 +72,7 @@ public class MyProject extends JFrame {
 		ChangePanel.setBounds(0, 0, 1000, 700);
 		getContentPane().add(ChangePanel);
 
-		LoginPanel lp = new LoginPanel();
+		lp = new LoginPanel();
 		ChangePanel.add(lp);
 
 		MainPanel = new JPanel();

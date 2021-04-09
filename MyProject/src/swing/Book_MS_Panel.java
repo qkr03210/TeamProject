@@ -1,17 +1,11 @@
 package swing;
 
-import java.BookRental;
-import java.Check;
-import java.Reserve;
-import java.SearchBook;
-import java.SelectAction;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -29,7 +23,6 @@ import javax.swing.table.DefaultTableModel;
 public class Book_MS_Panel extends JPanel {
 	// variables(Components)
 	private JLabel lbl_book_ms_panel_title;
-	private JScrollPane scrollPane;
 	private JLabel lbl_bid;
 	private JLabel lbl_book_title;
 	private JLabel lbl_author;
@@ -41,9 +34,9 @@ public class Book_MS_Panel extends JPanel {
 	private JLabel lb_check_rental;
 	private JButton btn_reserve;
 
+	private JScrollPane scrollPane;
 	private JTable table;
 
-	Check ck = null;
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -71,10 +64,6 @@ public class Book_MS_Panel extends JPanel {
 		returnLogin_bk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MyProject.switchTopPanel(MyProject.smp);
-//				MyProject.ChangePanel.removeAll();
-//				MyProject.ChangePanel.add(MyProject.smp);
-//				MyProject.ChangePanel.repaint();
-//				MyProject.ChangePanel.revalidate();
 			}
 		});
 		returnLogin_bk.setBounds(800, 600, 97, 23);
@@ -124,7 +113,7 @@ public class Book_MS_Panel extends JPanel {
 		btn_rental = new JButton("대여");
 		btn_rental.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				BookRental br = new BookRental(MyProject.UserId, selectedTable[0].getText());
+				MyProject.dml.rentBook(MyProject.UserId, selectedTable[0].getText());
 				JOptionPane.showMessageDialog(null, "대여 완료되었습니다.");
 			}
 		});
@@ -143,23 +132,13 @@ public class Book_MS_Panel extends JPanel {
 		btn_reserve = new JButton("예약");
 		btn_reserve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Reserve rs = new Reserve(selectedTable[0].getText());
+				MyProject.dml.reserveBook(selectedTable[0].getText());
 				JOptionPane.showMessageDialog(null, "예약 완료되었습니다.");
 			}
 		});
 
 		btn_reserve.setBounds(769, 449, 120, 29);
 		add(btn_reserve);
-		// 키입력 동적 검색
-		// txt_bookSearch.addKeyListener(new KeyAdapter() {
-		// public void keyReleased(KeyEvent e){
-		// String val = txt_bookSearch.getText();
-		// TableRowSorter<TableModel> trs = new
-		// TableRowSorter<>(table.getModel());
-		// table.setRowSorter(trs);
-		// trs.setRowFilter(RowFilter.regexFilter(val));
-		// }
-		// });
 
 		btn_bookSearch.setEnabled(false);
 		btn_reserve.setEnabled(false);
@@ -173,8 +152,8 @@ public class Book_MS_Panel extends JPanel {
 				for (int i = 0; i < table.getColumnCount(); i++) {
 					selectedTable[i].setText((String) table.getModel().getValueAt(row, i));
 				}
-				ck = new Check(selectedTable[0].getText());
-				lb_check_rental.setText(ck.checkRental());
+				String result = MyProject.dml.canRent(selectedTable[0].getText());
+				lb_check_rental.setText(result);
 
 				btn_bookSearch.setEnabled(true);
 				// 예약 중이면 둘다 없애고 예약 가능이면 예약 버튼 활성화 대여 가능이면 대여 버튼 활성화
@@ -198,56 +177,17 @@ public class Book_MS_Panel extends JPanel {
 
 		btn_bookSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (cmb_bookSearch.getSelectedItem().toString().equals("저자")) {
-					SearchBook srch = new SearchBook(table, (String) txt_bookSearch.getText(), "author");
-				} else {
-					SearchBook srch = new SearchBook(table, (String) txt_bookSearch.getText(), "title");
-				}
+				if (cmb_bookSearch.getSelectedItem().toString().equals("저자"))
+					MyProject.dml.searchBook(table, (String) txt_bookSearch.getText(), "author");
+				else
+					MyProject.dml.searchBook(table, (String) txt_bookSearch.getText(), "title");
 			}
 		});
 	}
 
 	private void makeTable() {
-		int index = 0;
-
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			// conn =
-			// DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
-			// "AI", "1234");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
-
-			String quary = "select cast((count(*)/10000) as number(4)) from lib_books";
-
-			pstmt = conn.prepareStatement(quary);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				index = rs.getInt(1);
-				// index = rs.getInt(1)+1;
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-
-		}
-
-		pageLabel = makePage(index);
+		int count = MyProject.dml.countAllBooks();
+		pageLabel = makePage(count);
 		for (JLabel lb : pageLabel)
 			add(lb);
 
@@ -255,7 +195,6 @@ public class Book_MS_Panel extends JPanel {
 			selectedTable[i] = new JLabel("");
 			selectedTable[i].setBounds(700, 60 + (60 * i), 200, 15);
 			add(selectedTable[i]);
-
 		}
 	}
 
@@ -270,7 +209,7 @@ public class Book_MS_Panel extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					btn_bookSearch.setEnabled(true);
-					printTable(mkLabel.getText());
+					MyProject.dml.selectBooks(table, Integer.parseInt(mkLabel.getText(), 10) - 1);
 				}
 
 				@Override
@@ -290,11 +229,6 @@ public class Book_MS_Panel extends JPanel {
 			arr[i] = mkLabel;
 		}
 		return arr;
-	}
-
-	// test
-	private void printTable(String page) {
-		SelectAction s_action = new SelectAction(table, Integer.parseInt(page, 10) - 1);
 	}
 
 	private static final int LB_WIDTH = 20;
