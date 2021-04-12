@@ -59,6 +59,7 @@ public class MyInfo extends JPanel {
 		scrpnl_rent.setBounds(12, 57, 622, 405);
 		add(scrpnl_rent);
 
+		//TODO 테이블에서 선택한 대여도서/ 반납
 		btn_return = new JButton("반납");
 		btn_return.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

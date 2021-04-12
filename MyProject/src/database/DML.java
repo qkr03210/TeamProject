@@ -34,6 +34,8 @@ public class DML {
 	 * 
 	 * @return
 	 */
+	
+	//TODO 도서 1만개씩 나눔
 	public int countAllBooks() {
 		int idx = -1;
 		try {
@@ -121,7 +123,7 @@ public class DML {
 			}
 		}
 	}
-
+	//TODO 대여버튼 timestamp
 	/**
 	 * 책을 유저에게 대여.
 	 * 
@@ -458,6 +460,7 @@ public class DML {
 	 * @param txt
 	 * @param option
 	 */
+	//TODO 도서 검색/콤보박스
 	public void searchBook(JTable table, String txt, String option) {
 		try {
 			if (tempConn == null)

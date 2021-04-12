@@ -129,6 +129,7 @@ public class Book_MS_Panel extends JPanel {
 		lb_check_rental.setBounds(700, 346, 57, 15);
 		add(lb_check_rental);
 
+		//TODO 예약에서 도서번호를 매개변수로/예약
 		btn_reserve = new JButton("예약");
 		btn_reserve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -144,6 +145,8 @@ public class Book_MS_Panel extends JPanel {
 		btn_reserve.setEnabled(false);
 		btn_rental.setEnabled(false);
 
+		
+		//TODO 테이블에서 도서 선택/자세히 보기
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -184,7 +187,7 @@ public class Book_MS_Panel extends JPanel {
 			}
 		});
 	}
-
+	//TODO 도서목록 1만개 페이지 분할 /21만개
 	private void makeTable() {
 		int count = MyProject.dml.countAllBooks();
 		pageLabel = makePage(count);

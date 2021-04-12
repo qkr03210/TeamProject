@@ -144,6 +144,8 @@ public class MyProject extends JFrame {
 	 * @param pan
 	 * @author jaemoonnlee
 	 */
+	
+	//TODO 화면전환 1번
 	public static void switchTopPanel(JPanel pan) {
 		ChangePanel.removeAll();
 		ChangePanel.add(pan);
