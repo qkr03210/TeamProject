@@ -1,0 +1,94 @@
+
+--도서관 책 테이블
+
+create table Lib_books
+(
+  bid varchar2(26) not null,
+  title varchar2(512),
+  author varchar2(1024),
+  copyright varchar2(128), 
+  year NUMBER(38),
+  lentable varchar2(20)
+);
+
+
+
+--과거대여목록생성
+create table Lib_prnt_pst
+(
+  bid varchar2(26) not null,
+  title varchar2(512) not null,
+  author varchar2(1024) not null,
+  lentdate date, 
+  retdate date,
+  lib_uid varchar2(20)
+);
+
+
+
+--지금상황
+create table Lib_prnt_now
+(
+  bid varchar2(26) not null,
+  title varchar2(512) not null,
+  author varchar2(1024) not null,
+  lentdate date, 
+  retdate date,
+  lib_uid varchar2(20)
+);
+
+--예약중인책
+create table Lib_prnt_rent
+(
+  bid varchar2(26) not null,
+  title varchar2(512) not null,
+  author varchar2(1024) not null,
+  retdate varchar2(20),
+  lib_uid varchar2(20)
+);
+
+
+--date류는 null가능해야함(프로시저에서 두번적기때문에).
+
+=====================================
+책 테이블에 lentable 행 추가
+
+=============================================================
+대여,예약 프로시저
+
+
+create or replace procedure p_lentbook
+(
+    b_bid lib_books.bid%type,
+    u_id lib_users.lib_uid%type
+)
+is 
+    lent varchar2(20);
+begin
+
+select lentable into lent from lib_books where bid =b_bid;
+
+if 
+        lent is not null then
+        insert into lib_prnt_rent
+        (bid,title,author)
+        select bid,title,author from lib_books
+        where bid =b_bid;
+        update lib_prnt_rent set retdate='예약',lib_uid=u_id where bid=b_bid;
+else
+    insert into lib_prnt_now
+    (bid,title,author)
+    select bid,title,author
+    from lib_books
+    where bid =b_bid;
+    update lib_prnt_now set lentdate = sysdate ,retdate = sysdate +14,lib_uid=u_id where bid=b_bid;
+    update lib_books set lentable='대여중' where lib_books.bid=b_bid;
+end if;
+
+end p_lentbook;
+
+======================================================
+
+
+
+
