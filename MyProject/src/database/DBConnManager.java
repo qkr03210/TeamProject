@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnManager {
 	// variables
 	private static Connection conn = null;
-	private final static String URL = "jdbc:oracle:thin:@192.168.0.77:1521:xe";
+	private final static String URL = "jdbc:oracle:thin:@localhost:1521:xe";
 
 	// method for db conn
 	private static Connection DBConn(String ID, String PW) {

@@ -68,7 +68,7 @@ public class MyInfo extends JPanel {
 					java.sql.Timestamp t = java.sql.Timestamp.valueOf(format_time1);
 
 					Class.forName("oracle.jdbc.driver.OracleDriver");
-					conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+					conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 
 					// 반납 null 및 예약 테이블일때 반납 버튼 사라짐 (민성)
 					if (t.equals("") || selectedRentNum.getText().equals("")) {
@@ -163,7 +163,7 @@ public class MyInfo extends JPanel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 			pstmt = conn.prepareStatement(
 					"select r.ren_num,r.ren_date,r.rtn_date,r.pre_date, bb.title from lib_rental r, lib_books bb  where r.ren_bid=bb.bid and r.ren_user='"
 							+ MyProject.UserId + "'");
@@ -200,7 +200,7 @@ public class MyInfo extends JPanel {
 	public void nowRental() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 
 			pstmt = conn.prepareStatement(
 					"select r.ren_num,r.ren_date,r.rtn_date,r.pre_date, bb.title from lib_rental r, lib_books bb  where r.ren_bid=bb.bid and r.ren_user='"
@@ -240,7 +240,7 @@ public class MyInfo extends JPanel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.77:1521:xe", "AI", "1234");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AI", "1234");
 			pstmt = conn.prepareStatement(
 					"select r.ren_bid,bb.title,bb.author from lib_rental r, lib_books bb  where r.ren_bid=bb.bid and r.sun_id='"
 							+ MyProject.UserId + "'");
