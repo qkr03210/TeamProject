@@ -24,7 +24,7 @@ Jave와 OracleDB를 사용한 도서관리 프로그램입니다.
 |마이페이지<br>(개정정보수정)|<img src="img/자바_도서관리_개인정보수정.PNG" style="width:400px">|
 |아이디찾기|<img src="img/자바_도서관리_아이디찾기.PNG" style="width:400px">|
 |회원가입|<img src="img/자바_도서관리_회원가입.PNG" style="width:400px">|
-|마이페이지<br>(탈퇴)|<img src="img/자바_도서관리_재확인.png" style="width:400px">|
+|마이페이지<br>(탈퇴)|<img src="img/자바_도서관리_재확인.PNG" style="width:400px">|
 |기타 알림창|<img src="img/자바_도서관리_중복확인.PNG" style="width:400px"><br><img src="img/자바_도서관리_비밀번호찾기성공.PNG" style="width:400px"><br><img src="img/자바_도서관리_아이디찾기성공.PNG" style="width:400px"><br><img src="img/자바_도서관리_회원가입_비밀번호.PNG" style="width:400px">|
     
 </details>
