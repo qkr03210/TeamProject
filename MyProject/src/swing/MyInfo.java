@@ -235,7 +235,7 @@ public class MyInfo extends JPanel {
 		}
 	}
 
-	// 21-04-07 박상준 작업중
+	// 21-04-07 박상준 
 	public void myReserv() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
